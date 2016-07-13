@@ -1,0 +1,40 @@
+﻿@model finel_project_mvc.Models.Worker
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Log in</h2>
+
+@using (Html.BeginForm("Index", "LogIn", FormMethod.Post))
+{ 
+    <table>
+        <tr>
+           <td>@Html.LabelFor(a=>a.email)</td> 
+            <td>@Html.TextBoxFor(a=>a.email)</td>
+            <td>@Html.ValidationMessage("Missing User name/Email")</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(a => a.password)</td>
+            <td>@Html.TextBoxFor(a => a.password)</td>
+            <td>@Html.ValidationMessage("Missing User Password")</td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Login" />
+}
+
+@*<table>
+        <tr>
+            <td><label id="lbl_userName">User name/Mail</label></td>
+            <td><input type="text" id="tb_userName" /></td>
+            <td>@Html.ValidationMessage("Missing User Name")</td>
+        </tr>
+        <tr>
+            <td><label id="lbl_password">Password</label></td>
+            <td><input type="text" id="tb_passworde" /></td>
+            <td>@Html.ValidationMessage("Missing password")</td>
+        </tr>
+    </table>*@
