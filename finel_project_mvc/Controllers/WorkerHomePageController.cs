@@ -35,11 +35,15 @@ namespace finel_project_mvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Task task = db.Tasks.Find(id);
             if (task == null)
             {
                 return HttpNotFound();
             }
+
+            ViewBag.workerId = task.workerID;
+
             return View(task);
         }
 
@@ -63,12 +67,10 @@ namespace finel_project_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Workers.Find(TempData["workerID"]) != null)
-                {
+                    task.workerID = Convert.ToInt32(Request.Form["workerId"]);
                     db.Tasks.Add(task);
                     db.SaveChanges();
-                    return RedirectToAction("Index", new { id = task.workerID });
-                }                
+                    return RedirectToAction("Index", new { id = task.workerID });                            
             }
 
             ViewBag.workerID = new SelectList(db.Workers, "workerID", "firstName", task.workerID);
@@ -102,9 +104,9 @@ namespace finel_project_mvc.Controllers
             {
                 db.Entry(task).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = task.workerID });
             }
-            ViewBag.workerID = new SelectList(db.Workers, "workerID", "firstName", task.workerID);
+            ViewBag.workerID = new SelectList(db.Workers, "workerID", "firstName", new { id = task.workerID });
             return View(task);
         }
 
@@ -141,6 +143,28 @@ namespace finel_project_mvc.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public ActionResult Accept(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Task task = db.Tasks.Find(id);
+
+            if(task != null)
+            {
+                task.accept = 1;
+                task.acceptDate = DateTime.Now.Date;
+            }
+
+            db.Entry(task).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", new { id = task.workerID });
         }
     }
 }
