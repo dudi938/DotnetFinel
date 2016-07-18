@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using finel_project_mvc.Models;
 
+
 namespace finel_project_mvc.Controllers
 {
     public class WorkerHomePageController : Controller
@@ -19,12 +20,18 @@ namespace finel_project_mvc.Controllers
         public ActionResult Index(int id)
         {
             var Worker = db.Workers.Where(w => w.workerID.Equals(id)).FirstOrDefault();
+            var tasks = db.Tasks.Include(t => t.Worker).Where(w => w.workerID == Worker.workerID);
+
+            var NonAcceptedTasksCount = (from task in tasks
+                                        where task.accept != 0x01
+                                        select task).ToList().Count;
+
 
             ViewBag.WorkerId = Worker.workerID;
             ViewBag.WorkerFirstName = Worker.firstName;
             ViewBag.WorkerLastName = Worker.lastName;
+            ViewBag.NonAcceptedTasks = NonAcceptedTasksCount;
 
-            var tasks = db.Tasks.Include(t => t.Worker).Where(w => w.workerID == Worker.workerID);
             return View(tasks.ToList());
         }
 

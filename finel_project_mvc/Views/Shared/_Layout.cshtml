@@ -37,15 +37,20 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 
-
+    <link rel="stylesheet" type="text/css" href="~/Content/my_sttyle_sheet.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/DataTableStyle.css">
     <script type="text/javascript" charset="utf8" src="~/scripts/DataTableScript.js"></script>
     <script type="text/javascript" charset="utf8" src="~/scripts/my_Java_script.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#jq_table').DataTable();
-        });
+        $(document).ready
+        (
+            function ()
+            {
+                $('#jq_table').DataTable();
+            }
+        );
     </script>
 </body>
 </html>
+

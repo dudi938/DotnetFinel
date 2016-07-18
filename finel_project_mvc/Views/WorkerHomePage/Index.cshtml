@@ -4,7 +4,14 @@
 
     <p>
         @Html.ActionLink("Create New", "Create", new { id = ViewBag.WorkerId })
-    </p>
+
+        @if (ViewBag.NonAcceptedTasks != 0)
+        {
+           <div id="worker_alert">
+                @ViewBag.WorkerFirstName ,you have @ViewBag.NonAcceptedTasks new tasks.<br />please look on the tasks and approve it.<br />
+           </div><br /><br />
+        }
+       
     <table id="jq_table">
         <thead>
             <tr>
@@ -56,15 +63,15 @@
                     <td>
                         @if (item.accept == 0)
                         {
-                            @Html.ActionLink("Accept", "Accept", new { id = item.taskID });
+                            @Html.ActionLink("Accept", "Accept", new { id = item.taskID }) <t>|</t>             
                         }
-
-                        @Html.ActionLink("Edit", "Edit", new { id = item.taskID }) |
                         @Html.ActionLink("Details", "Details", new { id = item.taskID }) 
                     </td>
                 </tr>
             }
-
         </tbody>
     </table>
+
+
+
 

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<finel_project_mvc.Models.Worker>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Workers list</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table  id="jq_table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.firstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.job)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.job)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.workerID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.workerID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.workerID })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
