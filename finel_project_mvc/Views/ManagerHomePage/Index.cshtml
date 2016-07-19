@@ -4,6 +4,15 @@
     ViewBag.Title = "Index";
 }
 
+
+@if (ViewBag.NonAcceptedTasks.Count != 0)
+{
+    <div id="worker_alert">
+     you have @ViewBag.NonAcceptedTasks.Count tasks on your team that is non accepted.<br />
+     @Html.ActionLink("Show Non Accepted Tasks", "ShowNonAcceptedTasks")
+    </div>
+}
+
 <h2>Workers list</h2>
 
 <p>

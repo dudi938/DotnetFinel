@@ -17,6 +17,9 @@ namespace finel_project_mvc.Controllers
         // GET: ManagerHomePage
         public ActionResult Index()
         {
+            List<Task> NonAcceptedTasks = db.Tasks.Where(w => w.accept != 1).ToList();
+            ViewBag.NonAcceptedTasks = NonAcceptedTasks;
+
             return View(db.Workers.ToList());
         }
 
@@ -113,6 +116,30 @@ namespace finel_project_mvc.Controllers
             db.Workers.Remove(worker);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        public ActionResult ShowNonAcceptedTasks()
+        {
+            var Tasks = db.Tasks.Where(t => t.accept != 1);
+            return View(Tasks);
+        }
+
+
+        public ActionResult SendTaskReminde(int? id)
+        {
+            worker_inbox Message = new worker_inbox();
+            Task task = db.Tasks.Find(id);
+
+            if (task != null)
+            {
+                Message.WorkerID = task.workerID;
+                Message.Message = string.Format("Hi {0}, look on task ID {1}. if you have any question or problem ask me. thanks",db.Workers.Where(w => w.workerID == task.workerID).FirstOrDefault().firstName,id);
+                Message.NonRead = true;
+                db.worker_inbox.Add(Message);
+                db.SaveChanges();
+            }
+            return RedirectToAction("ShowNonAcceptedTasks");
         }
 
         protected override void Dispose(bool disposing)

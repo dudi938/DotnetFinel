@@ -2,16 +2,46 @@
 
     <h4>Worker Name - @ViewBag.WorkerFirstName @ViewBag.WorkerLastName:</h4>
 
-    <p>
-        @Html.ActionLink("Create New", "Create", new { id = ViewBag.WorkerId })
+    
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.WorkerId })
 
-        @if (ViewBag.NonAcceptedTasks != 0)
-        {
-           <div id="worker_alert">
+    @if (ViewBag.NonAcceptedTasks != 0)
+    {
+        
+        <div id="worker_alert">
+            <p id="worker_alert_text">
                 @ViewBag.WorkerFirstName ,you have @ViewBag.NonAcceptedTasks new tasks.<br />please look on the tasks and approve it.<br />
-           </div><br /><br />
-        }
-       
+            </p>
+         </div>        
+
+    }
+
+
+    @if(ViewBag.Messages.Count != 0)
+    {
+        <div id="worker_messages">
+
+            <p id="worker_messages_text">
+                @Html.ActionLink("Show all messages", "ShowAllMessages", new { id = ViewBag.WorkerId })
+            </p>
+
+            <ul>
+                @foreach (var message in ViewBag.Messages)
+                {
+                    if(message.NonRead == true)
+                    {                     
+                        <li>@message.Message</li>
+                        @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = message.MessageID })
+                    }
+                }
+            </ul>
+        </div>
+    }
+
+
+
+
+
     <table id="jq_table">
         <thead>
             <tr>
@@ -61,7 +91,7 @@
                     </td>
 
                     <td>
-                        @if (item.accept == 0)
+                        @if (item.accept != 1)
                         {
                             @Html.ActionLink("Accept", "Accept", new { id = item.taskID }) <t>|</t>             
                         }

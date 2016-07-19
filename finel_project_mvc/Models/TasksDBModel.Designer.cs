@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\dudi9\Desktop\finel_project_mvc\finel_project_mvc\Models\TasksDBModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\DotNet\finel_project_mvc\finel_project_mvc\Models\TasksDBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

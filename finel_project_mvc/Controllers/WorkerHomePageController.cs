@@ -19,6 +19,7 @@ namespace finel_project_mvc.Controllers
         // GET: WorkerHomePage
         public ActionResult Index(int id)
         {
+            // pack all nedded data
             var Worker = db.Workers.Where(w => w.workerID.Equals(id)).FirstOrDefault();
             var tasks = db.Tasks.Include(t => t.Worker).Where(w => w.workerID == Worker.workerID);
 
@@ -26,7 +27,9 @@ namespace finel_project_mvc.Controllers
                                         where task.accept != 0x01
                                         select task).ToList().Count;
 
+            var MessageList = db.worker_inbox.Where(w => w.WorkerID == id).ToList();
 
+            ViewBag.Messages = MessageList;
             ViewBag.WorkerId = Worker.workerID;
             ViewBag.WorkerFirstName = Worker.firstName;
             ViewBag.WorkerLastName = Worker.lastName;
@@ -173,5 +176,28 @@ namespace finel_project_mvc.Controllers
 
             return RedirectToAction("Index", new { id = task.workerID });
         }
+
+        public ActionResult MarkMessageAsRead(int? id)
+        {
+           worker_inbox message = db.worker_inbox.Find(id);
+
+           if(message != null)
+           {
+               message.NonRead = false;
+           }
+           
+           db.Entry(message).State = EntityState.Modified;
+           db.SaveChanges();
+           
+           return RedirectToAction("Index", new { id = message.WorkerID });
+        }
+
+        public ActionResult ShowAllMessages(int? id)
+        {
+            var MessagesList = db.worker_inbox.Where(m => m.WorkerID == id);
+
+            return View(MessagesList.ToList());
+        }
     }
 }
+

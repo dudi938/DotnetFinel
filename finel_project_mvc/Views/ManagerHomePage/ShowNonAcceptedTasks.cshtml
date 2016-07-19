@@ -1,0 +1,68 @@
+﻿@model IEnumerable<finel_project_mvc.Models.Task>
+
+@{
+    ViewBag.Title = "ShowNonAcceptedTasks";
+}
+
+<h2>Non Accepted Tasks:</h2>
+
+<p>
+    @Html.ActionLink("Back", "Index")
+</p>
+<table id="jq_table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Worker.firstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Worker.lastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.taskDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worker.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worker.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.priority)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.taskDescription)
+                </td>
+                 
+                <td>
+                    @Html.ActionLink("Send reminder", "SendTaskReminde"   , new { id = item.taskID }) |
+                    @Html.ActionLink("Edit"         , "Edit"              , new { id = item.taskID }) |
+                    @Html.ActionLink("Details"      , "Details"           , new { id = item.taskID }) |
+                    @Html.ActionLink("Delete"       , "Delete"            , new { id = item.taskID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

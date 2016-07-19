@@ -28,10 +28,16 @@ namespace finel_project_mvc.Controllers
         {
             var Worker1 = db.Workers.Where(w => w.email.Equals(worker.email) && w.password.Equals(worker.password)).FirstOrDefault();
 
-
             if (Worker1 != null)
-            {              
-                return RedirectToAction("Index", "WorkerHomePage",new { id = Worker1.workerID });
+            {
+                if (Worker1.isManager != 1)
+                {
+                    return RedirectToAction("Index", "WorkerHomePage", new { id = Worker1.workerID });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "ManagerHomePage");
+                }
             }
             else
             {

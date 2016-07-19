@@ -18,6 +18,7 @@ namespace finel_project_mvc.Models
         public Worker()
         {
             this.Tasks = new HashSet<Task>();
+            this.worker_inbox = new HashSet<worker_inbox>();
         }
     
         public int workerID { get; set; }
@@ -31,5 +32,7 @@ namespace finel_project_mvc.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<worker_inbox> worker_inbox { get; set; }
     }
 }

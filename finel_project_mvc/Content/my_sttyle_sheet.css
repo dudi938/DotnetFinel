@@ -6,4 +6,22 @@
     font-size:13px;
     border-style:solid;
     border-color:red;
+    margin:30px;
+}
+
+#worker_messages_text
+#worker_alert_text
+{
+    padding:150px;
+}
+
+#worker_messages
+{
+    height:auto;
+    color:#000000;
+    background-color:white;
+    font-size:13px;
+    border-style:solid;
+    border-color:#2065e1;
+    margin:30px;
 }

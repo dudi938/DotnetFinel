@@ -28,5 +28,6 @@ namespace finel_project_mvc.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<Worker> Workers { get; set; }
+        public virtual DbSet<worker_inbox> worker_inbox { get; set; }
     }
 }

@@ -210,6 +210,9 @@
     <Compile Include="Models\Worker.cs">
       <DependentUpon>TasksDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\worker_inbox.cs">
+      <DependentUpon>TasksDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +240,8 @@
     <Content Include="Views\ManagerHomePage\Details.cshtml" />
     <Content Include="Views\ManagerHomePage\Edit.cshtml" />
     <Content Include="Views\ManagerHomePage\Index.cshtml" />
+    <Content Include="Views\ManagerHomePage\ShowNonAcceptedTasks.cshtml" />
+    <Content Include="Views\WorkerHomePage\ShowAllMessages.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

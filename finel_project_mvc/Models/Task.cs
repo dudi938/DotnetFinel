@@ -28,5 +28,7 @@ namespace finel_project_mvc.Models
         public Nullable<byte> accept { get; set; }
     
         public virtual Worker Worker { get; set; }
+        public virtual Task Tasks1 { get; set; }
+        public virtual Task Task1 { get; set; }
     }
 }

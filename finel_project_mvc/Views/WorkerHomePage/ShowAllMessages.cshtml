@@ -1,0 +1,47 @@
+﻿@model IEnumerable<finel_project_mvc.Models.worker_inbox>
+
+@{
+    ViewBag.Title = "ShowAllMessages";
+}
+
+<h2>INBOX:</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Worker.firstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NonRead)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Worker.firstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NonRead)
+        </td>
+        <td>
+            @if (item.NonRead == true)
+            {
+                @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = item.MessageID })
+            }
+        </td>
+    </tr>
+}
+
+</table>
