@@ -2,8 +2,10 @@
 
     <h4>Worker Name - @ViewBag.WorkerFirstName @ViewBag.WorkerLastName:</h4>
 
-    
-    @Html.ActionLink("Create New", "Create", new { id = ViewBag.WorkerId })
+
+<p>
+    @Html.ActionLink("Create new password", "CreateNewPassword", new { id = ViewBag.WorkerId })
+</p>
 
     @if (ViewBag.NonAcceptedTasks != 0)
     {
@@ -64,18 +66,22 @@
                     @Html.DisplayNameFor(model => model.accept)
                 </th>
 
+                <th>
+
+                </th>
+
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="task_row" id = "@item.status">
                     <td>
                         @Html.DisplayFor(modelItem => item.Worker.firstName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.status)
+                         @Html.DisplayFor(modelItem => item.status)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.priority)
@@ -88,6 +94,12 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.accept)
+                    </td>
+
+                    <td>
+                        <div class="IconDiv">
+
+                        </div>
                     </td>
 
                     <td>

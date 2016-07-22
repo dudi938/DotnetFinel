@@ -16,8 +16,9 @@
 <h2>Workers list</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("New Worker", "CreateNewWorker")        
 </p>
+
 <table  id="jq_table">
     <thead>
         <tr>
@@ -59,9 +60,10 @@
                     @Html.DisplayFor(modelItem => item.email)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.workerID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.workerID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.workerID })
+                    @Html.ActionLink("New task ", "CreateNewTask", new { id = item.workerID })|
+                    @Html.ActionLink("Edit", "EditWorker", new { id = item.workerID }) |
+                    @Html.ActionLink("Details", "WorkerDetails", new { id = item.workerID }) |
+                    @Html.ActionLink("Delete worker", "DeleteWorker", new { id = item.workerID })
                 </td>
             </tr>
         }

@@ -7,41 +7,44 @@
 <h2>INBOX:</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Back", "Index", new{ id = ViewBag.workerID})
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Worker.firstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Message)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NonRead)
-        </th>
+<table id="jq_table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Worker.firstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NonRead)
+            </th>
 
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Worker.firstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Message)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NonRead)
-        </td>
-        <td>
-            @if (item.NonRead == true)
-            {
-                @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = item.MessageID })
-            }
-        </td>
-    </tr>
-}
-
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worker.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NonRead)
+                </td>
+                <td>
+                    @if (item.NonRead == true)
+                    {
+                        @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = item.MessageID })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

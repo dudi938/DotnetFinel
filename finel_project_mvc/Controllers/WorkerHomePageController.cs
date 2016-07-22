@@ -192,12 +192,38 @@ namespace finel_project_mvc.Controllers
            return RedirectToAction("Index", new { id = message.WorkerID });
         }
 
+
+        // GET: Wworker change password
+        public ActionResult CreateNewPassword(int id)
+        {
+            var Worker = db.Workers.Where(w => w.workerID.Equals(id)).FirstOrDefault();
+
+            ViewBag.WorkerId = Worker.workerID;
+            ViewBag.WorkerFirstName = Worker.firstName;
+            ViewBag.WorkerLastName = Worker.lastName;
+            return View(Worker);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNewPassword([Bind(Include = "workerID,firstName,lastName,job,phone,isManager,password,email")] Worker worker)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(worker).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = worker.workerID });
+            }
+            return View();
+        }
+
         public ActionResult ShowAllMessages(int? id)
         {
             var MessagesList = db.worker_inbox.Where(m => m.WorkerID == id);
 
+            ViewBag.workerID = id;
             return View(MessagesList.ToList());
         }
     }
 }
-

@@ -24,12 +24,13 @@ namespace finel_project_mvc.Controllers
         }
 
         // GET: ManagerHomePage/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult WorkerDetails(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Worker worker = db.Workers.Find(id);
             if (worker == null)
             {
@@ -38,8 +39,46 @@ namespace finel_project_mvc.Controllers
             return View(worker);
         }
 
+
         // GET: ManagerHomePage/Create
-        public ActionResult Create()
+        public ActionResult CreateNewTask(int? id)
+        {
+            Worker worker = db.Workers.Find(id);
+            Task task = new Task();
+            if (worker != null)
+            {
+                ViewBag.firstName = worker.firstName;
+                ViewBag.lastName = worker.lastName;
+                ViewBag.workerID = worker.workerID;
+            }
+            return View(task);
+        }
+
+        // POST: ManagerHomePage/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNewTask([Bind(Include = "workerID,priority,taskDescription,endDate,numOfHowers")] Task task)
+        {
+            if (ModelState.IsValid)
+            {
+                task.dateCreated = DateTime.Now;
+                task.priority = "Medume";
+                task.status = "Wait";
+                task.accept = 0;
+                db.Tasks.Add(task);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+
+        // GET: ManagerHomePage/Create
+        public ActionResult CreateNewWorker()
         {
             return View();
         }
@@ -49,12 +88,18 @@ namespace finel_project_mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "workerID,firstName,lastName,job,phone,isManager,password,email")] Worker worker)
+        public ActionResult CreateNewWorker([Bind(Include = "workerID,firstName,lastName,job,phone,isManager,password,email")] Worker worker)
         {
             if (ModelState.IsValid)
             {
+                Random rnd = new Random();
+                worker.isManager = 0;
+                worker.password = rnd.Next(100000, 999999).ToString();
                 db.Workers.Add(worker);
                 db.SaveChanges();
+
+                ClassMail.SendPasswordOfNewWorker(worker.firstName, worker.email, worker.password);
+
                 return RedirectToAction("Index");
             }
 
@@ -62,13 +107,15 @@ namespace finel_project_mvc.Controllers
         }
 
         // GET: ManagerHomePage/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EditWorker(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Worker worker = db.Workers.Find(id);
+ 
             if (worker == null)
             {
                 return HttpNotFound();
@@ -81,7 +128,7 @@ namespace finel_project_mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "workerID,firstName,lastName,job,phone,isManager,password,email")] Worker worker)
+        public ActionResult EditWorker([Bind(Include = "workerID,firstName,lastName,job,phone,isManager,password,email")] Worker worker)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +140,7 @@ namespace finel_project_mvc.Controllers
         }
 
         // GET: ManagerHomePage/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult DeleteWorker(int? id)
         {
             if (id == null)
             {
@@ -108,10 +155,11 @@ namespace finel_project_mvc.Controllers
         }
 
         // POST: ManagerHomePage/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteWorker")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteWorkerConfirmed(int id)
         {
+
             Worker worker = db.Workers.Find(id);
             db.Workers.Remove(worker);
             db.SaveChanges();
