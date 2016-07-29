@@ -7,27 +7,27 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using finel_project_mvc.Models;
-
+using finel_project_mvc.DAL;
 
 namespace finel_project_mvc.Controllers
 {
     public class WorkerHomePageController : Controller
     {
-        private TasksDBEntities1 db = new TasksDBEntities1();
+       // private TasksDBEntities1 db = new TasksDBEntities1();
 
 
         // GET: WorkerHomePage
         public ActionResult Index(int id)
         {
             // pack all nedded data
-            var Worker = db.Workers.Where(w => w.workerID.Equals(id)).FirstOrDefault();
-            var tasks = db.Tasks.Include(t => t.Worker).Where(w => w.workerID == Worker.workerID);
+            var Worker = ClassDAL.GetWorkerByID(id);
+            var tasks = ClassDAL.GetTasksOfWorker(Worker.workerID);
 
             var NonAcceptedTasksCount = (from task in tasks
                                         where task.accept != 0x01
                                         select task).ToList().Count;
 
-            var MessageList = db.worker_inbox.Where(w => w.WorkerID == id).ToList();
+            var MessageList = ClassDAL.GetWorkerMessages(id);
 
             ViewBag.Messages = MessageList;
             ViewBag.WorkerId = Worker.workerID;
@@ -46,7 +46,7 @@ namespace finel_project_mvc.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Task task = db.Tasks.Find(id);
+            Task task = ClassDAL.GetTaskByID(id);
             if (task == null)
             {
                 return HttpNotFound();
@@ -60,7 +60,7 @@ namespace finel_project_mvc.Controllers
         // GET: WorkerHomePage/Create
         public ActionResult Create(int id)
         {
-            var Worker = db.Workers.Where(w => w.workerID.Equals(id)).FirstOrDefault();
+            var Worker = ClassDAL.GetWorkerByID(id);
 
             ViewBag.WorkerId = Worker.workerID;
             ViewBag.WorkerFirstName = Worker.firstName;
@@ -77,13 +77,12 @@ namespace finel_project_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                    task.workerID = Convert.ToInt32(Request.Form["workerId"]);
-                    db.Tasks.Add(task);
-                    db.SaveChanges();
-                    return RedirectToAction("Index", new { id = task.workerID });                            
+                task.workerID = Convert.ToInt32(Request.Form["workerId"]);
+                ClassDAL.AddTask(task);
+                return RedirectToAction("Index", new { id = task.workerID });                            
             }
 
-            ViewBag.workerID = new SelectList(db.Workers, "workerID", "firstName", task.workerID);
+            ViewBag.workerID = new SelectList(ClassDAL.GetAllWorker(), "workerID", "firstName", task.workerID);
             return View(task);
         }
 
@@ -94,12 +93,45 @@ namespace finel_project_mvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Task task = db.Tasks.Find(id);
+            Task task = ClassDAL.GetTaskByID(id);
             if (task == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.workerID = new SelectList(db.Workers, "workerID", "firstName", task.workerID);
+
+
+            List<SelectListItem> StatusItemsList = new List<SelectListItem>();
+            List<SelectListItem> AcceptItemsList = new List<SelectListItem>();
+
+            SelectListItem item1 = new SelectListItem();
+            SelectListItem item2 = new SelectListItem();
+            SelectListItem item3 = new SelectListItem();
+            SelectListItem item4 = new SelectListItem();
+
+            item1.Text  = "wait";
+            item1.Value = "wait";
+
+            item2.Text  = "done";
+            item2.Value = "done";
+
+            StatusItemsList.Add(item1);
+            StatusItemsList.Add(item2);
+
+            item3.Text = "yes";
+            item3.Value = "1";
+
+            item4.Text = "no";
+            item4.Value = "0";
+
+            AcceptItemsList.Add(item3);
+            AcceptItemsList.Add(item4);
+
+
+            
+            ViewBag.StatusItemsList = StatusItemsList;
+            ViewBag.AcceptItemsList = AcceptItemsList;
+
+            ViewBag.workerID = new SelectList(ClassDAL.GetAllWorker(), "workerID", "firstName", task.workerID);
             return View(task);
         }
 
@@ -107,16 +139,18 @@ namespace finel_project_mvc.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "taskID,workerID,status,priority,dateCreated,acceptDate,taskDescription,managerID,endDate,taskRevision,numOfHowers,accept")] Task task)
+        [ValidateAntiForgeryToken]                                                 
+        public ActionResult Edit([Bind(Include = "workerID,taskID,status,taskDescription,accept")] Task task)
         {
+            Task t = ClassDAL.GetTaskByID(task.taskID); 
+            task.workerID = t.workerID;
+
             if (ModelState.IsValid)
             {
-                db.Entry(task).State = EntityState.Modified;
-                db.SaveChanges();
+                ClassDAL.EditTask(task);
                 return RedirectToAction("Index", new { id = task.workerID });
             }
-            ViewBag.workerID = new SelectList(db.Workers, "workerID", "firstName", new { id = task.workerID });
+            ViewBag.workerID = new SelectList(ClassDAL .GetAllWorker(), "workerID", "firstName", new { id = task.workerID });
             return View(task);
         }
 
@@ -127,7 +161,7 @@ namespace finel_project_mvc.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Task task = db.Tasks.Find(id);
+            Task task = ClassDAL.GetTaskByID(id);
             if (task == null)
             {
                 return HttpNotFound();
@@ -140,20 +174,12 @@ namespace finel_project_mvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Task task = db.Tasks.Find(id);
-            db.Tasks.Remove(task);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { id = task.workerID });
+            int workerId = ClassDAL.GetTaskByID(id).workerID;
+
+            ClassDAL.RemoveTask(id);
+            return RedirectToAction("Index", new { id = workerId });
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
 
         public ActionResult Accept(int? id)
@@ -163,7 +189,7 @@ namespace finel_project_mvc.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Task task = db.Tasks.Find(id);
+            Task task = ClassDAL.GetTaskByID(id);
 
             if(task != null)
             {
@@ -171,24 +197,23 @@ namespace finel_project_mvc.Controllers
                 task.acceptDate = DateTime.Now.Date;
             }
 
-            db.Entry(task).State = EntityState.Modified;
-            db.SaveChanges();
+            ClassDAL.EditTask(task);
 
             return RedirectToAction("Index", new { id = task.workerID });
         }
 
         public ActionResult MarkMessageAsRead(int? id)
         {
-           worker_inbox message = db.worker_inbox.Find(id);
+            worker_inbox message = ClassDAL.GetMessagesByID(id);
 
-           if(message != null)
+           if (message != null)
            {
                message.NonRead = false;
            }
-           
-           db.Entry(message).State = EntityState.Modified;
-           db.SaveChanges();
-           
+
+            ClassDAL.EditMessages(message);
+
+
            return RedirectToAction("Index", new { id = message.WorkerID });
         }
 
@@ -196,7 +221,7 @@ namespace finel_project_mvc.Controllers
         // GET: Wworker change password
         public ActionResult CreateNewPassword(int id)
         {
-            var Worker = db.Workers.Where(w => w.workerID.Equals(id)).FirstOrDefault();
+            var Worker = ClassDAL.GetWorkerByID(id);
 
             ViewBag.WorkerId = Worker.workerID;
             ViewBag.WorkerFirstName = Worker.firstName;
@@ -211,8 +236,7 @@ namespace finel_project_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(worker).State = EntityState.Modified;
-                db.SaveChanges();
+                ClassDAL.EditWorker(worker);
                 return RedirectToAction("Index", new { id = worker.workerID });
             }
             return View();
@@ -220,10 +244,22 @@ namespace finel_project_mvc.Controllers
 
         public ActionResult ShowAllMessages(int? id)
         {
-            var MessagesList = db.worker_inbox.Where(m => m.WorkerID == id);
+            var MessagesList = ClassDAL.GetMessagesWorker(id);
 
             ViewBag.workerID = id;
             return View(MessagesList.ToList());
         }
+
+
+
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

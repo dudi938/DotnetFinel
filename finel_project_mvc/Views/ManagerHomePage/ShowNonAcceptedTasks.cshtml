@@ -58,9 +58,9 @@
                  
                 <td>
                     @Html.ActionLink("Send reminder", "SendTaskReminde"   , new { id = item.taskID }) |
-                    @Html.ActionLink("Edit"         , "Edit"              , new { id = item.taskID }) |
-                    @Html.ActionLink("Details"      , "Details"           , new { id = item.taskID }) |
-                    @Html.ActionLink("Delete"       , "Delete"            , new { id = item.taskID })
+                    @Html.ActionLink("Edit"         , "EditTask"          , new { id = item.taskID }) |
+                    @Html.ActionLink("Details"      , "TaskDetails"       , new { id = item.taskID }) |
+                    @Html.ActionLink("Delete"       , "DeleteTask"        , new { id = item.taskID })
                 </td>
             </tr>
         }

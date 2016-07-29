@@ -60,6 +60,7 @@
                     @Html.DisplayFor(modelItem => item.email)
                 </td>
                 <td>
+                    @Html.ActionLink("Show worker tasks", "TasksOfWorker", new { id = item.workerID }) |
                     @Html.ActionLink("New task ", "CreateNewTask", new { id = item.workerID })|
                     @Html.ActionLink("Edit", "EditWorker", new { id = item.workerID }) |
                     @Html.ActionLink("Details", "WorkerDetails", new { id = item.workerID }) |

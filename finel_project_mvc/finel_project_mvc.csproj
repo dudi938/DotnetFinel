@@ -187,6 +187,7 @@
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\WorkerController.cs" />
     <Compile Include="Controllers\WorkerHomePageController.cs" />
+    <Compile Include="DAL\DAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -254,6 +255,11 @@
     <Content Include="Views\WorkerHomePage\ShowAllMessages.cshtml" />
     <Content Include="Views\ManagerHomePage\CreateNewTask.cshtml" />
     <Content Include="Views\WorkerHomePage\CreateNewPassword.cshtml" />
+    <Content Include="Views\ManagerHomePage\EditTask.cshtml" />
+    <Content Include="Views\ManagerHomePage\DeleteTask.cshtml" />
+    <Content Include="Views\ManagerHomePage\TaskDetails.cshtml" />
+    <Content Include="Views\ManagerHomePage\TasksOfWorker.cshtml" />
+    <Content Include="Views\ManagerHomePage\HandeleTaskBeforDeleteWorker.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
