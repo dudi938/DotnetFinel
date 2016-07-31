@@ -137,6 +137,7 @@
     <Content Include="images\Cancel-48.png" />
     <Content Include="images\green.png" />
     <Content Include="images\Ok-48.png" />
+    <Content Include="images\output_046C0W.gif" />
     <Content Include="images\red.jpg" />
     <Content Include="Models\TasksDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

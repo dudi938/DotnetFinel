@@ -314,9 +314,12 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 1.428571429;
-  color: #252020;
-  background-color: #cacbd6;
+  color: rgb(8, 49, 47);
+  background-color: #cdcdcd;
 }
+
+
+
 
 input,
 button,
@@ -4155,6 +4158,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
     margin-left: 0;
   }
 }
+
+
+/*.navbar-header {
+    height:50px;
+
+}*/
 
 .navbar-static-top {
   border-width: 0 0 1px;

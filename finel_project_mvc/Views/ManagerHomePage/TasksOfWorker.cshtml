@@ -9,78 +9,81 @@
 <p>
     @Html.ActionLink("Create New", "CreateNewTask", new {id = ViewBag.workerID })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Worker.firstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.priority)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dateCreated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.accept)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.acceptDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.taskDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.endDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.numOfHowers)
-        </th>
+<table id="jq_table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Worker.firstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.accept)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.acceptDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.taskDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.endDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.numOfHowers)
+            </th>
 
 
-        <th></th>
-    </tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worker.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.priority)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.accept)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.acceptDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.taskDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.endDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.numOfHowers)
+                </td>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Worker.firstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.priority)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.dateCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.accept)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.acceptDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.taskDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.endDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.numOfHowers)
-        </td>
 
 
-
-        <td>
-            @Html.ActionLink("Edit", "EditTask", new { id=item.taskID }) |
-            @Html.ActionLink("Details", "TaskDetails", new { id=item.taskID }) |
-            @Html.ActionLink("Delete", "DeleteTask", new { id=item.taskID })
-        </td>
-    </tr>
-}
-
+                <td>
+                    @Html.ActionLink("Edit", "EditTask", new { id = item.taskID }) |
+                    @Html.ActionLink("Details", "TaskDetails", new { id = item.taskID }) |
+                    @Html.ActionLink("Delete", "DeleteTask", new { id = item.taskID })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

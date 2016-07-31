@@ -6,10 +6,32 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />  
-
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <table id="master_page_layout" align="center">
+        <tr>
+            <td>
+                <div style="height:150px; width:100%" >
+                    <p><a href="http://www.mediatech.co.il/Pages/home.aspx/"><img src="~/images/output_046C0W.gif" height="100" width="1800" border="0"/></a></p><br /><br /><br /><br />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - David G - .NET developer <br /> 054-2151661</p>
+                </footer>
+            </td>
+        </tr>
+    </table>
+    
+
+
+
+
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -20,19 +42,19 @@
                 @Html.ActionLink("TTM - Task Tool Manager", "Index", "LogIn", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+                <ul class="nav navbar-nav"></ul>
             </div>
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" style="padding-bottom:30px">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - David G - .NET developer <br /> 054-2151661</p>
         </footer>
-    </div>
+    </div>*@
+
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>

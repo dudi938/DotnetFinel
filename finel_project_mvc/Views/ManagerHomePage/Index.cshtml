@@ -7,8 +7,8 @@
 
 @if (ViewBag.NonAcceptedTasks.Count != 0)
 {
-    <div id="worker_alert">
-     you have @ViewBag.NonAcceptedTasks.Count tasks on your team that is non accepted.<br />
+    <div id="worker_alert" style="padding-left:10px;">
+     @ViewBag.NonAcceptedTasks.Count tasks on your team that not accepted.<br />
      @Html.ActionLink("Show Non Accepted Tasks", "ShowNonAcceptedTasks")
     </div>
 }

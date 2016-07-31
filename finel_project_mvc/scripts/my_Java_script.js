@@ -2,6 +2,9 @@
 (
     function () {
 
+
+        var test = $('#test1');
+
         var table = $('#jq_table').DataTable();
 
         //test
@@ -39,13 +42,9 @@
         }
 
 
-        $('.date-picker').datepicker();
-
-        $('.date-picker').click(function ()
-        {
-            var x = 0;
-        })
-        
+        $('#task_end_date').datepicker({
+            showAnim: "drop"
+        });
 
     });
 

@@ -20,11 +20,6 @@ namespace finel_project_mvc.Controllers
         // GET: ManagerHomePage
         public ActionResult Index()
         {
-            //List<Task> NonAcceptedTasks = db.Tasks.Where(w => w.accept != 1).ToList();
-            //ViewBag.NonAcceptedTasks = NonAcceptedTasks;
-
-            //return View(db.Workers.ToList());
-
             List<Task> NonAcceptedTasks = ClassDAL.GetAllTasks();
             ViewBag.NonAcceptedTasks = NonAcceptedTasks;
 
