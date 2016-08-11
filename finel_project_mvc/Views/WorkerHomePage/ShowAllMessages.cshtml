@@ -1,4 +1,4 @@
-﻿@model IEnumerable<finel_project_mvc.Models.worker_inbox>
+﻿@model IEnumerable<finel_project_mvc.Models.Message>
 
 @{
     ViewBag.Title = "ShowAllMessages";
@@ -16,10 +16,10 @@
                 @Html.DisplayNameFor(model => model.Worker.firstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Message)
+                @Html.DisplayNameFor(model => model.message1)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NonRead)
+                @Html.DisplayNameFor(model => model.nonRead)
             </th>
 
             <th></th>
@@ -33,15 +33,15 @@
                     @Html.DisplayFor(modelItem => item.Worker.firstName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Message)
+                    @Html.DisplayFor(modelItem => item.message1)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NonRead)
+                    @Html.DisplayFor(modelItem => item.nonRead)
                 </td>
                 <td>
-                    @if (item.NonRead == true)
+                    @if (item.nonRead == true)
                     {
-                        @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = item.MessageID })
+                        @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = item.messageID })
                     }
                 </td>
             </tr>

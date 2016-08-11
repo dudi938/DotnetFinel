@@ -8,12 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using finel_project_mvc.Models;
 
+
 namespace finel_project_mvc.Controllers
 {
     public class LogInController : Controller
     {
 
-        private TasksDBEntities1 db = new TasksDBEntities1();
+        private TasksDBEntities2 db = new TasksDBEntities2();
 
         // GET: LogIn
         public ActionResult Index()
@@ -32,10 +33,12 @@ namespace finel_project_mvc.Controllers
             {
                 if (Worker1.isManager != 1)
                 {
+                    HttpContext.Session["UserType"] = "Normal";
                     return RedirectToAction("Index", "WorkerHomePage", new { id = Worker1.workerID });
                 }
                 else
                 {
+                    HttpContext.Session["UserType"] = "Manager";
                     return RedirectToAction("Index", "ManagerHomePage");
                 }
             }

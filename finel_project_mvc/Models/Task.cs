@@ -16,19 +16,17 @@ namespace finel_project_mvc.Models
     {
         public int taskID { get; set; }
         public int workerID { get; set; }
-        public string status { get; set; }
-        public string priority { get; set; }
-        public Nullable<System.DateTime> dateCreated { get; set; }
-        public Nullable<System.DateTime> acceptDate { get; set; }
         public string taskDescription { get; set; }
-        public Nullable<int> managerID { get; set; }
-        public Nullable<System.DateTime> endDate { get; set; }
-        public string taskRevision { get; set; }
-        public Nullable<int> numOfHowers { get; set; }
+        public Nullable<System.DateTime> dateCreated { get; set; }
         public Nullable<byte> accept { get; set; }
+        public Nullable<System.DateTime> acceptDate { get; set; }
+        public string status { get; set; }
+        public Nullable<System.DateTime> endDate { get; set; }
+        public Nullable<int> numOfHowers { get; set; }
+        public string priority { get; set; }
+        public Nullable<int> managerID { get; set; }
+        public string taskRevision { get; set; }
     
         public virtual Worker Worker { get; set; }
-        public virtual Task Tasks1 { get; set; }
-        public virtual Task Task1 { get; set; }
     }
 }

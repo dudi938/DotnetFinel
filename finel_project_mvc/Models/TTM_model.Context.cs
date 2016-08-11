@@ -13,10 +13,10 @@ namespace finel_project_mvc.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class TasksDBEntities1 : DbContext
+    public partial class TasksDBEntities2 : DbContext
     {
-        public TasksDBEntities1()
-            : base("name=TasksDBEntities1")
+        public TasksDBEntities2()
+            : base("name=TasksDBEntities2")
         {
         }
     
@@ -25,9 +25,8 @@ namespace finel_project_mvc.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<Worker> Workers { get; set; }
-        public virtual DbSet<worker_inbox> worker_inbox { get; set; }
     }
 }

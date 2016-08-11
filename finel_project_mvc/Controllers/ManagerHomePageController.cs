@@ -57,7 +57,7 @@ namespace finel_project_mvc.Controllers
                 task.dateCreated = DateTime.Now;
                 task.status = "Wait";
                 task.accept = 0;
-
+                task.taskRevision = "1";
                 ClassDAL.AddTask(task);
             }
             return RedirectToAction("Index");
@@ -184,9 +184,16 @@ namespace finel_project_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                task.accept = 0;
+                Task UpdatedTask = ClassDAL.GetTaskByID(task.taskID);
+                UpdatedTask.Worker = ClassDAL.GetWorkerByID(task.workerID);
+                UpdatedTask.workerID = task.workerID;
+                UpdatedTask.accept = 0;
+                UpdatedTask.priority = task.priority;
+                UpdatedTask.taskDescription = task.taskDescription;
+                UpdatedTask.endDate = task.endDate;
+                UpdatedTask.numOfHowers = task.numOfHowers;
 
-                ClassDAL.EditTask(task);
+                ClassDAL.EditTask(UpdatedTask);
 
                 //db.Entry(task).State = EntityState.Modified;
                 //db.SaveChanges();
@@ -223,15 +230,15 @@ namespace finel_project_mvc.Controllers
 
         public ActionResult SendTaskReminde(int? id)
         {
-            worker_inbox Message = new worker_inbox();
+            Message Message = new Message();
             Task task = ClassDAL.GetTaskByID(id);
             Worker worker = ClassDAL.GetWorkerByID(task.workerID);
 
             if (task != null)
             {
-                Message.WorkerID = task.workerID;
-                Message.Message = string.Format("Hi {0}, look on task ID {1}. if you have any question or problem ask me. thanks", worker.firstName, id);
-                Message.NonRead = true;
+                Message.workerID = task.workerID;
+                Message.message1 = string.Format("Hi {0}, look on task ID {1}. if you have any question or problem ask me. thanks", worker.firstName, id);
+                Message.nonRead = true;
                 ClassDAL.AddMessage(Message);
             }
             return RedirectToAction("ShowNonAcceptedTasks");
@@ -321,13 +328,12 @@ namespace finel_project_mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditWorker([Bind(Include = "workerID,firstName,lastName,job,phone,isManager,password,email")] Worker worker)
+        public ActionResult EditWorker([Bind(Include = "workerID,firstName,lastName,job,email,password,isManager,phone")] Worker worker)
         {
             if (ModelState.IsValid)
             {
 
                 ClassDAL.EditWorker(worker);
-
                 return RedirectToAction("Index");
             }
             return View(worker);
@@ -373,7 +379,12 @@ namespace finel_project_mvc.Controllers
             return RedirectToAction("Index");
         }
 
-
+        
+        public ActionResult Inbox()
+        {
+            List<Message> messages = ClassDAL.GetManagerMessages();
+            return View(messages);
+        }
 
         //protected override void Dispose(bool disposing)
         //{

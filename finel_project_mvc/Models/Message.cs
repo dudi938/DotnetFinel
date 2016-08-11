@@ -12,15 +12,14 @@ namespace finel_project_mvc.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class worker_inbox
+    public partial class Message
     {
-        public int MessageID { get; set; }
-        public int WorkerID { get; set; }
-        public string Message { get; set; }
-        public Nullable<bool> NonRead { get; set; }
+        public int messageID { get; set; }
+        public int workerID { get; set; }
+        public Nullable<bool> nonRead { get; set; }
+        public Nullable<int> TaskId { get; set; }
+        public string message1 { get; set; }
     
-        public virtual worker_inbox worker_inbox1 { get; set; }
-        public virtual worker_inbox worker_inbox2 { get; set; }
         public virtual Worker Worker { get; set; }
     }
 }

@@ -30,10 +30,10 @@
             <ul>
                 @foreach (var message in ViewBag.Messages)
                 {
-                    if(message.NonRead == true)
+                    if(message.nonRead == true)
                     {                     
-                        <li>@message.Message</li>
-                        @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = message.MessageID })
+                        <li>@message.message1</li>
+                        @Html.ActionLink("Mark as read", "MarkMessageAsRead", new { id = message.messageID })
                     }
                 }
             </ul>
@@ -66,9 +66,7 @@
                     @Html.DisplayNameFor(model => model.accept)
                 </th>
 
-                <th>
-
-                </th>
+                <th></th>
 
                 <th></th>
             </tr>
@@ -97,13 +95,12 @@
                     </td>
 
                     <td>                       
-                        @*<div class="IconDiv">
-                        </div>*@
-
                         <img/>
                     </td>
 
                     <td>
+                        @Html.ActionLink("Question to manager", "QuestionToManager", new { id = item.taskID }) |
+                        
                         @if (item.accept != 1)
                         {
                             @Html.ActionLink("Accept", "Accept", new { id = item.taskID }) <t>|</t>             

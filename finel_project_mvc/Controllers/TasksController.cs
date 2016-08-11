@@ -8,12 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using finel_project_mvc.Models;
 
-
 namespace finel_project_mvc.Controllers
 {
     public class TasksController : Controller
     {
-        private TasksDBEntities1 db = new TasksDBEntities1();
+        private TasksDBEntities2 db = new TasksDBEntities2();
 
         // GET: Tasks
         public ActionResult Index()
@@ -49,7 +48,7 @@ namespace finel_project_mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "taskID,workerID,status,priority,dateCreated,acceptDate,taskDescription,managerID,endDate,taskRevision,numOfHowers,accept")] Task task)
+        public ActionResult Create([Bind(Include = "taskID,workerID,taskDescription,dateCreated,accept,acceptDate,status,endDate,numOfHowers,priority,managerID,taskRevision")] Task task)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +82,7 @@ namespace finel_project_mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "taskID,workerID,status,priority,dateCreated,acceptDate,taskDescription,managerID,endDate,taskRevision,numOfHowers,accept")] Task task)
+        public ActionResult Edit([Bind(Include = "taskID,workerID,taskDescription,dateCreated,accept,acceptDate,status,endDate,numOfHowers,priority,managerID,taskRevision")] Task task)
         {
             if (ModelState.IsValid)
             {

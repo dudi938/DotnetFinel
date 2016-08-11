@@ -17,22 +17,22 @@ namespace finel_project_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Worker()
         {
+            this.Messages = new HashSet<Message>();
             this.Tasks = new HashSet<Task>();
-            this.worker_inbox = new HashSet<worker_inbox>();
         }
     
         public int workerID { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string job { get; set; }
-        public string phone { get; set; }
-        public Nullable<byte> isManager { get; set; }
-        public string password { get; set; }
         public string email { get; set; }
+        public string password { get; set; }
+        public Nullable<byte> isManager { get; set; }
+        public string phone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<worker_inbox> worker_inbox { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

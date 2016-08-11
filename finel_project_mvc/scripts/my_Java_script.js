@@ -3,12 +3,21 @@
     function () {
 
 
+        //update prfile icon
+        var ProfileIcon = $('#log_icon');
+        var UserType = ProfileIcon[0].getAttribute("class");
+        if (UserType == "Manager") {
+            ProfileIcon[0].src = "/images/Manager.png";
+        }
+        else
+        {
+            ProfileIcon[0].src = "/images/user.png";
+        }
+
+
         var test = $('#test1');
 
         var table = $('#jq_table').DataTable();
-
-        //test
-        //div_task_end_date
 
         var allData = table.rows().data();
         var Nodes = $("#jq_table").dataTable().fnGetNodes();
@@ -34,6 +43,10 @@
             if (allData[i][1] == "done")
             {
                 var td = Nodes[i].children[6].children[0].src = "/images/Ok-48.png";
+            }
+            else if (allData[i][1] == "In progress")
+            {
+                var td = Nodes[i].children[6].children[0].src = "/images/in_progress.png";
             }
             else
             {

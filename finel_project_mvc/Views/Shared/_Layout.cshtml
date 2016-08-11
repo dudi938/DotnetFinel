@@ -6,18 +6,32 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />  
+    <link href="~/Content/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/datepicker.css" rel="stylesheet" type="text/css" />	
+
 </head>
 <body>
     <table id="master_page_layout" align="center">
         <tr>
             <td>
-                <div style="height:150px; width:100%" >
-                    <p><a href="http://www.mediatech.co.il/Pages/home.aspx/"><img src="~/images/output_046C0W.gif" height="100" width="1800" border="0"/></a></p><br /><br /><br /><br />
+                <div style="height:150px; width:100%">
+                    <p><a href="http://www.mediatech.co.il/Pages/home.aspx/"><img src="~/images/93682.gif" height="100" width="1200" border="0"/></a></p><br /><br /><br /><br />
                 </div>
+            </td>
+            <td align="right" valign="top">
+                <iframe src="http://free.timeanddate.com/clock/i5b3g5qn/n676/szw160/szh160/hocfff/hbw0/hfc000/cf100/hgr0/fav0/fiv0/mqc0f0/mqs2/mql4/mqw4/mqd86/mhc0f0/mhs2/mhl4/mhw4/mhd86/mmc0f0/mml2/mmd88/hhc00f/hhs3/hhl50/hhw11/hmc00f/hms3/hml80/hmw11/hsc00f/hsl90/hsw6" frameborder="0" width="160" height="160"></iframe>
             </td>
         </tr>
         <tr>
-            <td>
+            <td align="left" valign="top">
+                <div style="width:100px; height:100px;">
+                    <img id="log_icon" class="@HttpContext.Current.Session["UserType"]" />
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3" style="padding:20px">
                 @RenderBody()
                 <hr />
                 <footer>
@@ -25,36 +39,8 @@
                 </footer>
             </td>
         </tr>
+
     </table>
-    
-
-
-
-
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("TTM - Task Tool Manager", "Index", "LogIn", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="container body-content" style="padding-bottom:30px">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - David G - .NET developer <br /> 054-2151661</p>
-        </footer>
-    </div>*@
-
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
@@ -64,16 +50,6 @@
     <script type="text/javascript" charset="utf8" src="~/scripts/DataTableScript.js"></script>
     <script type="text/javascript" charset="utf8" src="~/scripts/my_Java_script.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
-    @*<script type="text/javascript">
-        $(document).ready
-        (
-            function ()
-            {
-                $('#jq_table').DataTable();
-            }
-        );
-    </script>*@
 </body>
 </html>
 

@@ -24,7 +24,7 @@ namespace finel_project_mvc.Controllers
             var tasks = ClassDAL.GetTasksOfWorker(Worker.workerID);
 
             var NonAcceptedTasksCount = (from task in tasks
-                                        where task.accept != 0x01
+                                        where task.accept != 1
                                         select task).ToList().Count;
 
             var MessageList = ClassDAL.GetWorkerMessages(id);
@@ -107,6 +107,7 @@ namespace finel_project_mvc.Controllers
             SelectListItem item2 = new SelectListItem();
             SelectListItem item3 = new SelectListItem();
             SelectListItem item4 = new SelectListItem();
+            SelectListItem item5 = new SelectListItem();
 
             item1.Text  = "wait";
             item1.Value = "wait";
@@ -114,17 +115,21 @@ namespace finel_project_mvc.Controllers
             item2.Text  = "done";
             item2.Value = "done";
 
+            item3.Text = "In progress";
+            item3.Value = "In progress";
+
             StatusItemsList.Add(item1);
             StatusItemsList.Add(item2);
+            StatusItemsList.Add(item3);
 
-            item3.Text = "yes";
-            item3.Value = "1";
+            item4.Text = "yes";
+            item4.Value = "1";
 
-            item4.Text = "no";
-            item4.Value = "0";
+            item5.Text = "no";
+            item5.Value = "0";
 
-            AcceptItemsList.Add(item3);
             AcceptItemsList.Add(item4);
+            AcceptItemsList.Add(item5);
 
 
             
@@ -140,15 +145,15 @@ namespace finel_project_mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]                                                 
-        public ActionResult Edit([Bind(Include = "workerID,taskID,status,taskDescription,accept")] Task task)
+        public ActionResult Edit([Bind(Include = "workerID,taskID,status,accept")] Task task)
         {
-            Task t = ClassDAL.GetTaskByID(task.taskID); 
-            task.workerID = t.workerID;
+            Task UpdatedTask = ClassDAL.GetTaskByID(task.taskID);
+            UpdatedTask.status = task.status;
 
             if (ModelState.IsValid)
             {
-                ClassDAL.EditTask(task);
-                return RedirectToAction("Index", new { id = task.workerID });
+                ClassDAL.EditTask(UpdatedTask);
+                return RedirectToAction("Index", new { id = UpdatedTask.workerID });
             }
             ViewBag.workerID = new SelectList(ClassDAL .GetAllWorker(), "workerID", "firstName", new { id = task.workerID });
             return View(task);
@@ -204,17 +209,17 @@ namespace finel_project_mvc.Controllers
 
         public ActionResult MarkMessageAsRead(int? id)
         {
-            worker_inbox message = ClassDAL.GetMessagesByID(id);
+            Message message = ClassDAL.GetMessagesByID(id);
 
            if (message != null)
            {
-               message.NonRead = false;
+               message.nonRead = false;
            }
 
             ClassDAL.EditMessages(message);
 
 
-           return RedirectToAction("Index", new { id = message.WorkerID });
+           return RedirectToAction("Index", new { id = message.workerID });
         }
 
 
@@ -251,7 +256,29 @@ namespace finel_project_mvc.Controllers
         }
 
 
+        public ActionResult QuestionToManager(int? id)
+        {
+            Task task = ClassDAL.GetTaskByID(id);
+            return View(task);
+        }
 
+
+        [HttpPost]
+        public ActionResult QuestionToManager()
+        {
+            string Question = Request.Form["tb_question"];
+            int Id = Int32.Parse(Request.Form["TaskId"]);
+
+            Task task = ClassDAL.GetTaskByID(Id);
+
+            Message Message = new Message();
+            Message.message1 = Question;
+            Message.nonRead = true;
+            Message.TaskId = task.taskID;
+
+            ClassDAL.AddMessageToManager(Message);
+            return RedirectToAction("Index", new { id = task.workerID });
+        }
 
         //protected override void Dispose(bool disposing)
         //{

@@ -11,7 +11,7 @@ namespace finel_project_mvc.DAL
     {
         public static void AddWorker(Worker newWorker)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 db.Workers.Add(newWorker);
                 db.SaveChanges();
@@ -20,17 +20,16 @@ namespace finel_project_mvc.DAL
 
         public static void AddTask(Task newTask)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 db.Tasks.Add(newTask);
                 db.SaveChanges();
             }
         }
 
-
         public static void EditWorker(Worker worker)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 db.Entry(worker).State = EntityState.Modified;
                 db.SaveChanges();
@@ -39,7 +38,7 @@ namespace finel_project_mvc.DAL
 
         public static void EditTask(Task task)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 db.Entry(task).State = EntityState.Modified;
                 db.SaveChanges();
@@ -48,7 +47,7 @@ namespace finel_project_mvc.DAL
 
         public static void RemoveWorker(int? id)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 Worker w = db.Workers.Find(id);
 
@@ -63,7 +62,7 @@ namespace finel_project_mvc.DAL
 
         public static void RemoveTask(int ?id)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 Task t = db.Tasks.Find(id);
 
@@ -79,7 +78,7 @@ namespace finel_project_mvc.DAL
 
         public static List<Worker> GetAllWorker()
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 return db.Workers.ToList();
             }
@@ -87,7 +86,7 @@ namespace finel_project_mvc.DAL
 
         public static List<Task> GetAllTasks()
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 List<Task> Tasks = db.Tasks.Include(t => t.Worker).ToList();
                 return Tasks;
@@ -96,7 +95,7 @@ namespace finel_project_mvc.DAL
 
         public static Worker GetWorkerByID(int? id)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 Worker w = db.Workers.Find(id);
                 return w;
@@ -106,7 +105,7 @@ namespace finel_project_mvc.DAL
 
         public static Task GetTaskByID(int? id)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 Task task = db.Tasks.Include(t => t.Worker).Where(t => t.taskID == id).FirstOrDefault();
                 return task;
@@ -116,7 +115,7 @@ namespace finel_project_mvc.DAL
 
         public static List<Task> GetTasksOfWorker(int? WorkerByID)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 List<Task> TasksList = db.Tasks.Where(t => t.workerID == WorkerByID).Include(t => t.Worker).ToList();
                 return TasksList;
@@ -124,57 +123,77 @@ namespace finel_project_mvc.DAL
         }
 
 
-        public static List<worker_inbox> GetMessagesWorker(int? WorkerByID)
+        public static List<Message> GetMessagesWorker(int? WorkerByID)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
-                List<worker_inbox> Messages = db.worker_inbox.Where(M => M.WorkerID == WorkerByID).ToList();
+                List<Message> Messages = db.Messages.Include(m => m.Worker).Where(M => M.workerID == WorkerByID).ToList();
                 return Messages;
             }
         }
 
         public static void RemoveMessagesOfWorker(int? WorkerByID)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
-                List<worker_inbox> Messages = db.worker_inbox.Where(M => M.WorkerID == WorkerByID).ToList();
-                db.worker_inbox.RemoveRange(Messages);
+                List<Message> Messages = db.Messages.Where(M => M.workerID == WorkerByID).ToList();
+                db.Messages.RemoveRange(Messages);
                 db.SaveChanges();
             }
         }
 
 
-        public static void AddMessage(worker_inbox message)
+        public static void AddMessage(Message message)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
-            {
-                db.worker_inbox.Add(message);
+            using (TasksDBEntities2 db = new TasksDBEntities2())
+            {               
+                db.Messages.Add(message);
                 db.SaveChanges();    
             }
         }
 
-        public static List<worker_inbox> GetWorkerMessages(int id)
+        public static void AddMessageToManager(Message message)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
-                return db.worker_inbox.Include(m => m.Worker).Where(m => m.WorkerID == id).ToList();
+                int ManagerId = db.Workers.Where(w => w.isManager == 1).FirstOrDefault().workerID;
+
+                message.workerID = ManagerId;
+                db.Messages.Add(message);
+                db.SaveChanges();
             }
         }
 
-        public static worker_inbox GetMessagesByID(int? id)
+        public static List<Message> GetWorkerMessages(int id)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
-                return db.worker_inbox.Include(m => m.Worker).Where(m => m.MessageID == id).FirstOrDefault();
+                return db.Messages.Include(m => m.Worker).Where(m => m.workerID == id).ToList();
             }
         }
 
-        public static void EditMessages(worker_inbox message)
+        public static Message GetMessagesByID(int? id)
         {
-            using (TasksDBEntities1 db = new TasksDBEntities1())
+            using (TasksDBEntities2 db = new TasksDBEntities2())
+            {
+                return db.Messages.Include(m => m.Worker).Where(m => m.messageID == id).FirstOrDefault();
+            }
+        }
+
+        public static void EditMessages(Message message)
+        {
+            using (TasksDBEntities2 db = new TasksDBEntities2())
             {
                 db.Entry(message).State = EntityState.Modified;
                 db.SaveChanges();
+            }
+        }
+
+        public static List<Message> GetManagerMessages()
+        {
+            using (TasksDBEntities2 db = new TasksDBEntities2())
+            {
+                return db.Messages.Include(m => m.Worker).Where(m => m.Worker.isManager == 1).ToList();
             }
         }
     }
